@@ -1,0 +1,31 @@
+package project;
+
+public class NodeAlice  {
+	public principal {Alice -> Alice} user; 
+	public int {Alice -> Alice} distance;
+	public NodeAlice {Alice -> Alice} next;
+
+	public NodeAlice {Alice -> Alice} (principal {Alice -> Alice} user, int {Alice -> Alice} distance) {
+		this.user = user;
+    	this.distance = distance;
+    	this.next = null;
+	}
+
+	public void add {Alice -> Alice} (NodeAlice {Alice -> Alice} node) {
+		try{
+			this.next.add(node);
+		} catch (NullPointerException ex){
+			this.next = node;
+		}
+	}
+	
+	// If a is null, returns b, otherwise appends b to a and returns a
+	public static NodeAlice append {Alice -> Alice} (NodeAlice {Alice -> Alice} a, NodeAlice {Alice -> Alice} b) : {Alice -> Alice} {
+		if (a == null){
+			return b;
+		}
+		
+		a.add(b);
+		return a;
+	} 
+}
