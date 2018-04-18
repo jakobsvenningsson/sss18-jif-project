@@ -31,35 +31,32 @@ public class DatingApp02 authority (Alice,Bob,Chuck, Dolores) {
 
 	public Node[P] {P -> P} findNeighbours{P -> P} (principal {_->_}P) where authority (Alice, Bob, Chuck) {
 		Node[P] neighbours = null;
+		User[P] user = (P == Bob ? bobData : (P == Chuck ? chuckData : aliceData));
 		
-		if(Alice actsfor P) {
-			double {P -> P} distance = declassify(getSquaredDistance(P, Bob, aliceData, bobData), {P -> P});
-			if(distance < 10*10) {
-				Node[P].append(neighbours, new Node[P]{P -> P}(Bob, (int) distance));
-			} 
-			double distance1 = declassify(getSquaredDistance(P, Chuck, aliceData, chuckData), {P -> P});
-			if(distance1 < 10*10) {
-				Node[P].append(neighbours, new Node[P](Chuck, (int) distance1));
-			} 
-		} else if(Chuck actsfor P) {
-			double {P -> P} distance = declassify(getSquaredDistance(P, Bob, chuckData, bobData), {P -> P});
-			if(distance < 10*10) {
-				Node[P].append(neighbours, new Node[P]{P -> P}(Bob, (int) distance));
-			} 
-			double distance1 = declassify(getSquaredDistance(P, Alice, chuckData, aliceData), {P -> P});
-			if(distance1 < 10*10) {
-				Node[P].append(neighbours, new Node[P](Alice, (int) distance1));
-			} 
-		} else if(Bob actsfor P) {
-			double {P -> P} distance = declassify(getSquaredDistance(P, Alice, bobData, aliceData), {P -> P});
+		/* If user != Alice then add alice to neightbours if within distance */
+		if(Alice actsfor P) {} else {
+			double {P -> P} distance = declassify(getSquaredDistance(P, Alice, user, aliceData), {P -> P});
 			if(distance < 10*10) {
 				Node[P].append(neighbours, new Node[P]{P -> P}(Alice, (int) distance));
 			} 
-			double distance1 = declassify(getSquaredDistance(P, Chuck, bobData, chuckData), {P -> P});
-			if(distance1 < 10*10) {
-				Node[P].append(neighbours, new Node[P](Chuck, (int) distance1));
+		}
+		
+		/* If user != Chuck then add chuck to neightbours if within distance */
+		if(Chuck actsfor P) {} else {
+			double {P -> P} distance = declassify(getSquaredDistance(P, Chuck, user, chuckData), {P -> P});
+			if(distance < 10*10) {
+				Node[P].append(neighbours, new Node[P]{P -> P}(Chuck, (int) distance));
 			} 
 		}
+		
+		/* If user != Bob then add bob to neightbours if within distance */
+		if(Bob actsfor P) {} else {
+			double {P -> P} distance = declassify(getSquaredDistance(P, Bob, user, bobData), {P -> P});
+			if(distance < 10*10) {
+				Node[P].append(neighbours, new Node[P]{P -> P}(Bob, (int) distance));
+			} 
+		}
+		
 		return neighbours;
 	}
 }
