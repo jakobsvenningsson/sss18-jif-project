@@ -88,50 +88,25 @@ public class DatingApp01 authority (Bob,Chuck,Dolores) {
 		declassify({Alice -> Alice; Chuck -> Chuck} to {Alice -> Alice}){return false;}
 	}
 	
-	public String{Alice->Alice} discloseNumberToAlice {Alice -> Alice; Bob -> Bob; Chuck -> Chuck} (principal {Alice -> Alice; Bob -> Bob; Chuck -> Chuck} user) 
+	public String{Alice->Alice} discloseNumberToAlice {Alice -> Alice} (principal {Alice -> Alice} user) 
 	where authority (Bob, Chuck){
+	
 	   String phoneNum = (user == Bob) ? bobPhone : chuckPhone;
 	   boolean isUserInAliceList = isUserInAliceLikes(user);
-	   declassify({Alice -> Alice; Bob -> Bob; Chuck -> Chuck} to {Alice->Alice}){
-	   	principal tempUser = declassify(user, {Alice -> Alice});
-	   	boolean isAliceInUserLikes = (tempUser == Bob) ? isAliceInBobLikes() : isAliceInChuckLikes();
+	   
+	   principal tempUser = declassify(user, {Alice -> Alice});
+	   boolean isAliceInUserLikes = (tempUser == Bob) ? isAliceInBobLikes() : isAliceInChuckLikes();
 	   	
-	   	if(isUserInAliceList && isAliceInUserLikes){
-		   declassify({Alice -> Alice; Bob -> Bob; Chuck -> Chuck} to {Alice->Alice}){
-		   		return declassify(phoneNum, {Alice-> Alice});
-		   	}
+	   if(isUserInAliceList && isAliceInUserLikes){
+		  	return declassify(phoneNum, {Alice-> Alice});
 	   }
 	   else {
-	   		 declassify({Alice -> Alice; Bob -> Bob; Chuck -> Chuck} to {Alice->Alice}){
-		   		return "You lonely bastard!";
-		   	}
-	   	}	   	
-	   }
-	   	
-	   
-	   
-	  /* if (user == Chuck){
-		   	mutualLike = isAliceInChuckLikes() && isUserInAliceLikes(user);
-		   	if(mutualLike){
-		   		declassify({Alice -> Alice; Bob -> Bob; Chuck -> Chuck} to {Alice -> Alice}){
-		   			return declassify(chuckPhone, {Alice -> Alice});
-		   		}
-		   }
-	   } else if (user == Bob){
-	   		mutualLike = isAliceInBobLikes() && isUserInAliceLikes(user);
-	   		if(mutualLike){
-		   		declassify({Alice -> Alice; Bob -> Bob; Chuck -> Chuck} to {Alice -> Alice}){
-			   		return declassify(bobPhone, {Alice -> Alice});
-		   		}
-	   		}  		
-	   }
-	   declassify({Alice -> Alice; Bob -> Bob; Chuck -> Chuck} to {Alice -> Alice}){
-	   		return null;
-	   }*/
-	   
+		   	return "You lonely bastard!";
+	   }	   		   
 	}
 	
-	private boolean {Alice -> Alice; Bob -> Bob; Chuck -> Chuck} isUserInAliceLikes {Alice -> Alice; Bob -> Bob; Chuck -> Chuck} (principal {Alice -> Alice; Bob -> Bob; Chuck -> Chuck} user){
+	private boolean {Alice -> Alice} isUserInAliceLikes {Alice -> Alice} 
+	(principal {Alice -> Alice} user){
 		NodeAlice tempAliceLikes = aliceLikes;
 		while(tempAliceLikes != null){
 			if(tempAliceLikes.user == user){
