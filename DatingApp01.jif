@@ -4,49 +4,69 @@ public class DatingApp01 authority (Bob,Chuck,Dolores) {
 	private double {Alice -> Alice} alicePositionX;
 	private double {Alice -> Alice} alicePositionY;
 	private String {Alice -> Alice} alicePhone;
+	private int {Alice -> Alice} aliceDistance;
 	
 	private double {Bob -> Bob} bobPositionX;
 	private double {Bob -> Bob} bobPositionY;
 	private String {Bob -> Bob} bobPhone;
+	private int {Bob -> Bob} bobDistance;
+	
 	
 	private double {Chuck -> Chuck} chuckPositionX;
 	private double {Chuck -> Chuck} chuckPositionY;
 	private String {Chuck -> Chuck} chuckPhone;
+	private int {Chuck -> Chuck} chuckDistance;
 	
-	public void updateAlice {Alice -> Alice}(double{Alice -> Alice} x, double {Alice -> Alice} y, String {Alice -> Alice} phone) {
+	
+	public void updateAlice {Alice -> Alice}(	double{Alice -> Alice} x, 
+												double {Alice -> Alice} y, 
+												String {Alice -> Alice} phone,
+												int{Alice -> Alice} aliceDistance) {
 		alicePositionX = x; 
 		alicePositionY = y; 
 		alicePhone = phone;
+		this.aliceDistance = aliceDistance;
 	}
-	public void updateBob {Bob -> Bob}(double {Bob -> Bob}x, double {Bob -> Bob} y, String {Bob -> Bob} phone) {
+	public void updateBob {Bob -> Bob}(double {Bob -> Bob}x, 
+										double {Bob -> Bob} y, 
+										String {Bob -> Bob} phone,
+										int{Bob -> Bob} bobDistance) {
 		bobPositionX = x; 
 		bobPositionY = y;
 		bobPhone = phone;
+		this.bobDistance = bobDistance;
 	}
-	public void updateChuck {Chuck -> Chuck}(double {Chuck -> Chuck} x, double {Chuck -> Chuck} y, String{Chuck -> Chuck} phone) {
+	public void updateChuck {Chuck -> Chuck}(double {Chuck -> Chuck} x, 
+												double {Chuck -> Chuck} y, 
+												String{Chuck -> Chuck} phone,
+												int{Chuck -> Chuck} chuckDistance) {
 		chuckPositionX = x; 
 		chuckPositionY = y;
 		chuckPhone = phone;
+		this.chuckDistance = chuckDistance;
 	}
 	
 	public NodeAlice {Alice->Alice} findAliceNeighbours {Alice->Alice}() where authority (Bob, Chuck) {
 		double deltaAliceBobX = alicePositionX - bobPositionX;
 		double deltaAliceBobY = alicePositionY - bobPositionY;
 		NodeAlice contacts = null; 
-		double distance = declassify((deltaAliceBobX * deltaAliceBobX) + (deltaAliceBobY * deltaAliceBobY), {Alice -> Alice});
 		
-		if(10*10 > distance){
-			NodeAlice bob = new NodeAlice(Bob, (int) distance);
-			contacts = NodeAlice.append(contacts, bob);
+		double distance = declassify((deltaAliceBobX * deltaAliceBobX) + (deltaAliceBobY * deltaAliceBobY), {Alice -> Alice});
+		if(this.bobDistance*this.bobDistance > distance){
+			declassify({Bob -> Bob; Alice -> Alice} to {Alice -> Alice}) {
+				NodeAlice bob = new NodeAlice(Bob, (int) distance);
+				contacts = NodeAlice.append(contacts, bob);
+			}
 		}
 		
 		double deltaAliceChuckX = alicePositionX - chuckPositionX;
 		double deltaAliceChuckY = alicePositionY - chuckPositionY;
 		distance = declassify((deltaAliceChuckX * deltaAliceChuckX) + (deltaAliceChuckY * deltaAliceChuckY), {Alice -> Alice});
-		if(10*10 > distance){
-			
-			NodeAlice chuck = new NodeAlice(Chuck, (int)distance);
-			contacts = NodeAlice.append(contacts, chuck);
+		if(this.chuckDistance*this.chuckDistance > distance){
+			declassify({Chuck -> Chuck; Alice -> Alice} to {Alice -> Alice}) {
+				NodeAlice chuck = new NodeAlice(Chuck, (int)distance);
+				contacts = NodeAlice.append(contacts, chuck);
+			}
 		}
 		return contacts;
 	}
