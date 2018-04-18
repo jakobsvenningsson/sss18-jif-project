@@ -34,7 +34,7 @@ public class DatingApp01 authority (Bob,Chuck,Dolores) {
 		double deltaAliceBobY = alicePositionY - bobPositionY;
 		NodeAlice contacts = null; 
 		double distance = declassify((deltaAliceBobX * deltaAliceBobX) + (deltaAliceBobY * deltaAliceBobY), {Alice -> Alice});
-		
+
 		if(10*10 > distance){
 			NodeAlice bob = new NodeAlice(Bob, (int) distance);
 			contacts = NodeAlice.append(contacts, bob);

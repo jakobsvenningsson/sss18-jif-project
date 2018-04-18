@@ -1,23 +1,65 @@
 package project02;
 
-public class DatingApp02 authority (Alice,Bob,Chuck) {
-	/*private User[Alice] aliceData;
+public class DatingApp02 authority (Alice,Bob,Chuck, Dolores) {
+	private User[Alice] aliceData;
 	private Node[Alice] aliceLikes;
 	private User[Bob] bobData;
 	private Node[Bob] bobLikes;
 	private User[Chuck] chuckData;
 	private Node[Chuck] chuckLikes;
 
-	public void updateUser(principal {_->_}P, double x, double y, String phone) {
-		...
+	public void updateUser{P -> P}(	principal {_->_}P, 
+								  	double {P -> P} x,
+									double {P -> P} y, 
+									String {P -> P} phone)
+									: {P -> P} throws Exception {
+											  
+		User[P] user = (P == Bob ? bobData : (P == Chuck ? chuckData : aliceData));
+		user.positionX = x;
+		user.positionY = y;
+		user.phone = phone;
 	}
 
-	public int getSquaredDistance(principal {P1->P1}P1, principal {P1->P1}P2,
-			User[P1] {P1->P1}data1, User[P2]{P1->P1} data2) {
-		...
+	public int {P1 -> P1; P2 -> P2} getSquaredDistance(principal {P1->P1}P1, principal {P1->P1}P2,
+			User[P1] {P1->P1}data1, User[P2]{P1->P1} data2): {P1 -> P1} where authority(Alice, Bob, Chuck) {
+			try {
+				double {P1 -> P1; P2 -> P2} dx = data1.positionX - data2.positionX;
+				double {P1 -> P1; P2 -> P2} dy = data1.positionY - data2.positionY;			
+				return (int) (dx*dx + dy*dy);
+			} catch (Exception e) { return 0; }
 	} 
 
-	public Node[P] findNeighbours (principal {_->_}P) where authority (Alice, Bob, Chuck) {
-		...
-	}*/
+	public Node[P] {P -> P} findNeighbours{P -> P} (principal {_->_}P) where authority (Alice, Bob, Chuck) {
+		Node[P] neighbours = null;
+		
+		if(Alice actsfor P) {
+			double {P -> P} distance = declassify(getSquaredDistance(P, Bob, aliceData, bobData), {P -> P});
+			if(distance < 10*10) {
+				Node[P].append(neighbours, new Node[P]{P -> P}(Bob, (int) distance));
+			} 
+			double distance1 = declassify(getSquaredDistance(P, Chuck, aliceData, chuckData), {P -> P});
+			if(distance1 < 10*10) {
+				Node[P].append(neighbours, new Node[P](Chuck, (int) distance1));
+			} 
+		} else if(Chuck actsfor P) {
+			double {P -> P} distance = declassify(getSquaredDistance(P, Bob, chuckData, bobData), {P -> P});
+			if(distance < 10*10) {
+				Node[P].append(neighbours, new Node[P]{P -> P}(Bob, (int) distance));
+			} 
+			double distance1 = declassify(getSquaredDistance(P, Alice, chuckData, aliceData), {P -> P});
+			if(distance1 < 10*10) {
+				Node[P].append(neighbours, new Node[P](Alice, (int) distance1));
+			} 
+		} else if(Bob actsfor P) {
+			double {P -> P} distance = declassify(getSquaredDistance(P, Alice, bobData, aliceData), {P -> P});
+			if(distance < 10*10) {
+				Node[P].append(neighbours, new Node[P]{P -> P}(Alice, (int) distance));
+			} 
+			double distance1 = declassify(getSquaredDistance(P, Chuck, bobData, chuckData), {P -> P});
+			if(distance1 < 10*10) {
+				Node[P].append(neighbours, new Node[P](Chuck, (int) distance1));
+			} 
+		}
+		return neighbours;
+	}
 }

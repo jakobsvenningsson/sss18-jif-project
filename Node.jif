@@ -1,19 +1,30 @@
 package project02;
 
 public class  Node[principal P]  {
-	/*public principal {P->P}user; 
+	public principal {P->P}user; 
 	public int {P->P} distance;
 	public Node[P] {P->P} next;
 
-	public Node(principal user, int  distance) {
-		...
+	public Node{P -> P}(principal{P->P} user, int{P -> P} distance) {
+		this.user = user;
+		this.distance = distance;
+		this.next = null;
 	}
 
-	public void add(Node[P]  node)  {
-		...
+	public void add{P -> P}(Node[P]{P -> P}  node)  {
+		try{
+			this.next.add(node);
+		} catch (NullPointerException ex){
+			this.next = node;
+		}	
 	}
 	
-	public static Node[P] append(Node[P] a, Node[P] b) {
-		...
-	} */
+	public static Node[P] append {P -> P}(Node[P]{P->P} a, Node[P]{P->P} b): {P -> P} {
+		if (a == null){
+			return b;
+		}
+		
+		a.add(b);
+		return a;
+	}
 }
