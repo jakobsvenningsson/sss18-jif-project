@@ -66,7 +66,7 @@ public class DatingApp01 authority (Bob,Chuck,Dolores) {
 		}
 	}
 	
-	private boolean {Alice->Alice} isAliceInBobLikes {Alice -> Alice}() : {Alice->Alice} where authority(Bob) {
+	private boolean {Alice->Alice} isAliceInBobLikes {Alice -> Alice}() where authority(Bob) {
 		NodeBob tempBobLikes = bobLikes;
 		while(tempBobLikes != null){
 			if(tempBobLikes.user == Alice){
@@ -77,7 +77,7 @@ public class DatingApp01 authority (Bob,Chuck,Dolores) {
 		declassify({Alice -> Alice; Bob -> Bob} to {Alice -> Alice}){return false;}
 	}
 	
-	public boolean {Alice->Alice} isAliceInChuckLikes {Alice -> Alice}() : {Alice->Alice} where authority(Chuck) {
+	public boolean {Alice->Alice} isAliceInChuckLikes {Alice -> Alice}() where authority(Chuck) {
 		NodeChuck tempChuckLikes = chuckLikes;
 		while(tempChuckLikes != null){
 			if(tempChuckLikes.user == Alice){
@@ -93,15 +93,13 @@ public class DatingApp01 authority (Bob,Chuck,Dolores) {
 	
 	   String phoneNum = (user == Bob) ? bobPhone : chuckPhone;
 	   boolean isUserInAliceList = isUserInAliceLikes(user);
-	   
-	   principal tempUser = declassify(user, {Alice -> Alice});
-	   boolean isAliceInUserLikes = (tempUser == Bob) ? isAliceInBobLikes() : isAliceInChuckLikes();
+	   boolean isAliceInUserLikes = (user == Bob) ? isAliceInBobLikes() : isAliceInChuckLikes();
 	   	
 	   if(isUserInAliceList && isAliceInUserLikes){
 		  	return declassify(phoneNum, {Alice-> Alice});
 	   }
 	   else {
-		   	return "You lonely bastard!";
+		   	return null;
 	   }	   		   
 	}
 	
